@@ -20,6 +20,53 @@ if(isset($_SESSION["name"])){
         ?>
     </h1>
 
+    <p>Add new new task todo:</p>
+    <form action="/hey/new.php" method ="POST">
+        <input type="text" size="100" maxlength="100" name ="task">
+        <input type="submit" value = "save">
+    </form>
+
+<?php
+class MyDB extends SQLite3{
+    function __construct(){
+        $this->open("test.db");
+    }
+}
+
+$db = new MyDB();
+
+if(!$db){
+    echo $db->lastErrorMsg();
+} else{
+
+}
+
+$uname = $_SESSION["name"];
+
+$sql =<<<EOF
+    SELECT * FROM USERS WHERE name = '$uname';
+EOF;
+
+$ret = $db->query($sql);
+
+if($ret){
+    while($row = $ret->fetchArray(SQLITE3_ASSOC)){
+    echo "<h3 style='color:#89bbf4;'>Todo: " . $row["TODO"] . "</h3>";
+}
+}
+
+$db->close();
+
+
+
+?>
+
+
+
+
+
+
+
     <a href="/hey/logout.php">Logout</a>
 </body>
 </html>
